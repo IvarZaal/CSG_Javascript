@@ -1,11 +1,11 @@
 /*  **********************************************************
     **      BEGIN klasse Vijand bij voorbeeld Levels        **
     ********************************************************** */
-
+ // hallo 
 
 class Vijand {
   constructor(l) {
-      this.x = canvas.width - 100;
+      this.x = canvas.height - 100;
       this.y = random(100,canvas.height - 100);
       this.d = 50;
       this.v = 3 + random (3*l);
