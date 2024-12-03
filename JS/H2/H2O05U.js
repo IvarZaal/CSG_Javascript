@@ -27,10 +27,9 @@ function tekenRaster() {
   push();
   noFill();
   stroke('grey');
-  for (var rij = 0;rij < aantalRijenRaster;rij++) {
-    for (var kolom = 0;kolom < aantalKolommenRaster;kolom++) {
-      rect(kolom*celGrootte,rij*celGrootte,celGrootte,celGrootte);
-    }
+  for (var n = 0; n < 9; n++) {
+
+      rect(n*celGrootte,1*celGrootte,celGrootte,celGrootte);
   }
   pop();
 }

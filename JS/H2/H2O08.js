@@ -13,14 +13,26 @@ function setup() {
 
 function draw() {
   tekenAchtergrond();
-
+  for(var h = 0;h < huisNummers.length; h++){
   
-    tekenHuis(kleur,13);
+    tekenHuis(kleur,huisNummers[h],huisEigenaren[h]);
     translate(150,0);
-
+    if (h % 3 == 0){
+      kleur ='darkgray' ;
+      }
+    else {
+      kleur ='lightgray' ;
+    }
+    // if(kleur == 'lightgray'){
+    //   kleur = 'darkgray'
+    // }
+    // else {
+    //   kleur ='lightgray' 
+    // }
+  }
 }
 
-function tekenHuis(kleur,nr) {
+function tekenHuis(kleur,nr,naam) {
   push();
   fill(kleur);
   rect(0,110,150,150);
@@ -32,7 +44,7 @@ function tekenHuis(kleur,nr) {
   text(nr,75,190);
   fill('black');
   textSize(15);
-  text("naam",20,165);
+  text(naam,20,165);
   pop();
 }
 

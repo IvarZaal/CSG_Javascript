@@ -13,7 +13,9 @@ function setup() {
 function draw() {
   background('grey');
   image(strand,strandX,0);
-  // image(strand,strandX + strand.width,0);  
-
-  strandX--;
+  image(strand,strandX + strand.width,0);
+  strandX-=559;  
+ if (strandX <= -600) {
+  strandX = 0
+ }
 }

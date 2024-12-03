@@ -19,8 +19,8 @@ var bal = {
     
     if (this.y >= canvas.height - this.straal) {
       this.snelheidY *= -this.demping;
-      this.y = canvas.height - this.straal;
       this.snelheidX *= this.demping;
+      this.y = canvas.height - this.straal;
     }
   },
   
