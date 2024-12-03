@@ -1,5 +1,4 @@
 function preload() {
-    achtergrondmuziek = loadSound("sounds/bensound-groovyhiphop.mp3");
 }
 
 function windowResized() {
@@ -7,36 +6,19 @@ function windowResized() {
 }
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    colorMode(RGB,255,255,255,1);
-    textFont("Monospace");
-    textSize(44);
-    textAlign(CENTER,CENTER);  
-    frameRate(50);
-    spel = new Spacers();
-    spel.nieuwSpel();
+  createCanvas(windowWidth,windowWidth); // Create a 400x400 canvas
+  background(220);        // Set a light gray background
 }
 
+// draw() loops continuously after setup()
 function draw() {
-    if (spel.actief && !spel.levelGehaald) {
-        spel.update();
-    }
-    spel.teken();
+  // Example: Draw a circle at the mouse position when clicked
+  if (mouseIsPressed) {
+    fill('black'); // Random fill color
+    noStroke(); // No border
+    ellipse(mouseX, mouseY, 10, 10); // Draw a circle
+  }
 }
 
 function keyTyped() {
-  if (!spel.actief && !spel.levelGehaald) {
-    // begin spel
-    spel.actief = true;
-    achtergrondmuziek.loop();
-  }
-  if ((spel.levelGehaald && !spel.afgelopen) && keyCode == ENTER) {
-    // level gehaald tijdens het spel
-    spel.nieuwLevel();
-  }
-  if ((spel.afgelopen) && keyCode == 32) {
-    // einde spel => 32 = ENTER 
-    achtergrondmuziek.stop();
-    spel.nieuwSpel();
-  }  
 }
