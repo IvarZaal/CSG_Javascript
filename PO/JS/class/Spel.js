@@ -7,6 +7,7 @@ class Spel {
     this.beginscherm = true;
     this.afgelopen = false;
     this.speelveld = new Speelveld(); // Speelveld-object voor spelweergave
+    this.hero = new Hero()
   }
 
   nieuwSpel() {
@@ -30,22 +31,9 @@ class Spel {
     this.afgelopen = false;
     this.punten = 0;
     this.speelveld.tekenActiefSpel(); // Start het actieve spel
-
-    console.log("Het spel is gestart!");
+    this.hero.teken()
   }
 
-  eindScherm() {
-    // Game over-scherm
-    textAlign(CENTER, CENTER);
-    textSize(32);
-    fill('white');
-    text('Game Over!', width / 2, height / 2);
-    textSize(20);
-    text('Druk op Enter om opnieuw te beginnen', width / 2, height / 2 + 50);
-    if (keyIsDown(ENTER)) {
-      this.nieuwSpel(); // Start een nieuw spel wanneer Enter wordt ingedrukt
-    }
-  }
 
   teken() {
     // Hoofdtekenfunctie voor het spel
@@ -57,12 +45,17 @@ class Spel {
       if (keyIsDown(ENTER)) {
         this.spelStarten(); // Start het spel bij drukken op Enter
       }
-    } else if (this.spelActief) {
+    } 
+    else if (this.spelActief) {
       // Als het spel actief is, teken het actieve spel
       this.speelveld.tekenActiefSpel(); // Teken het actieve spel
-    } else if (this.afgelopen) {
+    }
+     else if (this.afgelopen) {
       // Als het spel is afgelopen, teken het eindscherm
-      this.eindScherm();
+      this.speelveld.eindScherm();
+      if(keyIsDown(ENTER)){
+        this.nieuwSpel()
+      }
     }
   }
 }
