@@ -1,14 +1,10 @@
 let Heroafbeelding;
 
-function preload() {
-  Heroafbeelding = loadImage('Docentenplaatjes/informaticahero.png');
-}
-
 class Hero {
   constructor() {
     this.y = height - width / 12; // Beginpositie van de held (onderaan het scherm)
     this.x = width / 2; // Horizontale positie (midden van het scherm)
-    this.grote = width / 6; // Grootte van de held
+    this.grote = width / 12; // Grootte van de held
     this.kleur = 'yellow'; // Kleur van de held
     this.snelheid = width / 6; // Stapgrootte voor beweging (1 stap)
     this.movingLeft = false; // Beweging naar links

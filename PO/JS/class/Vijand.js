@@ -4,11 +4,6 @@
  // hallo 
 let vijandAfbeeldingen = {};
 
-function preload() {
-  vijandAfbeeldingen['type1'] = loadImage('Docentenplaatjes/informaticakloosterman.png');
-  vijandAfbeeldingen['type2'] = loadImage('Docentenplaatjes/informaticaspeelman.png');
-  vijandAfbeeldingen['type3'] = loadImage('Docentenplaatjes/informaticavanderVeen.png');
-}
 class Vijand {
   constructor(l) {
     let mogelijkePosities = [4 * width / 12, 6 * width / 12, 8 * width / 12];
