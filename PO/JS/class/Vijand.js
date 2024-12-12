@@ -2,9 +2,9 @@
     **      BEGIN klasse Vijand bij voorbeeld Levels        **
     ********************************************************** */
  // hallo 
- let vijandAfbeeldingen = {};
+let vijandAfbeeldingen = {};
 
- function preload() {
+function preload() {
   vijandAfbeeldingen['type1'] = loadImage('Docentenplaatjes/informaticakloosterman.png');
   vijandAfbeeldingen['type2'] = loadImage('Docentenplaatjes/informaticaspeelman.png');
   vijandAfbeeldingen['type3'] = loadImage('Docentenplaatjes/informaticavanderVeen.png');

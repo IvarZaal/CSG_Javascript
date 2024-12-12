@@ -1,8 +1,14 @@
+let Heroafbeelding;
+
+function preload() {
+  Heroafbeelding = loadImage('Docentenplaatjes/informaticahero.png');
+}
+
 class Hero {
   constructor() {
     this.y = height - width / 12; // Beginpositie van de held (onderaan het scherm)
     this.x = width / 2; // Horizontale positie (midden van het scherm)
-    this.grote = width / 12; // Grootte van de held
+    this.grote = width / 6; // Grootte van de held
     this.kleur = 'yellow'; // Kleur van de held
     this.snelheid = width / 6; // Stapgrootte voor beweging (1 stap)
     this.movingLeft = false; // Beweging naar links
@@ -16,14 +22,17 @@ class Hero {
     // Als de held onschendbaar is, teken een andere kleur (bijv. transparante geel)
     if (this.invincible) {
       fill(255, 255, 0, 150); // Gele kleur met transparantie
-    } else {
-      fill(this.kleur); // Normale kleur
+    } 
+    else {
+      image(Heroafbeelding, this.x - this.grote / 2, this.y - this.grote / 2, this.grote, this.grote);
+      noFill();// geen kleur om de afbeelding niet te verstoren
     }
-
+    
     noStroke();
-    ellipse(this.x, this.y, this.grote); // Teken de held als een cirkel
-
+    //ellipse(this.x, this.y, this.grote); // Teken de held als een cirkel
+    
     // Beweeg de held alleen als de toets wordt ingedrukt en niet voortdurend
+    
     if (keyIsPressed) {
       if (key === 'a' && !this.movingLeft) { // A-toets voor links
         this.x -= this.snelheid;
