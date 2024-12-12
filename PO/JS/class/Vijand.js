@@ -2,36 +2,91 @@
     **      BEGIN klasse Vijand bij voorbeeld Levels        **
     ********************************************************** */
  // hallo 
+ let vijandAfbeeldingen = {};
 
+ function preload() {
+  vijandAfbeeldingen['type1'] = loadImage('Docentenplaatjes/informaticakloosterman.png');
+  vijandAfbeeldingen['type2'] = loadImage('Docentenplaatjes/informaticaspeelman.png');
+  vijandAfbeeldingen['type3'] = loadImage('Docentenplaatjes/informaticavanderVeen.png');
+}
 class Vijand {
   constructor(l) {
-      this.x = canvas.height - 100;
-      this.y = random(100,canvas.height - 100);
-      this.d = 50;
-      this.v = 3 + random (3*l);
-      this.kleur = 'blue';
+    let mogelijkePosities = [4 * width / 12, 6 * width / 12, 8 * width / 12];
+    this.x = random(mogelijkePosities); // Willekeurige x-positie uit de lijst
+    this.y = 0; // Startpositie bovenaan het scherm
+    this.d = width/12;
+    this.snelheid = 3;
+    this.kleur = 'blue';
   }
 
   beweeg() {
-    this.x -= this.v;
+    this.y += this.snelheid;
   }
-
-  raakt(s) {
-      if (dist(this.x,this.y,s.x,s.y) <= (this.d + s.d) / 2) {
-          return true;
-      }
-      else {
-          return false;
-      }
-  }
-
+  
   teken() {
-      push();
-      noStroke();
-      fill(this.kleur);
-      ellipse(this.x,this.y,this.d);
-      pop();
+    push();
+    noStroke();
+    if (this.afbeelding) {
+      imageMode(CENTER);
+      image(this.afbeelding, this.x, this.y, this.d, this.d); // Teken de afbeelding
+    } else {
+    }
+    pop();
   }
+}
+  
+
+class VijandType1 extends Vijand {
+  constructor(l) {
+    super(l);
+    this.kleur = 'red';
+    this.afbeelding = vijandAfbeeldingen['type1'];
+    this.snelheid += 1;
+    this.y = height/2
+  }
+}
+  
+class VijandType2 extends Vijand {
+  constructor(l) {
+    super(l);
+    this.kleur = 'green';
+    this.afbeelding = vijandAfbeeldingen['type2'];
+  }
+}
+  
+class VijandType3 extends Vijand {
+  constructor(l) {
+    super(l);
+    this.kleur = 'yellow';
+    this.snelheid += 2;
+    this.d = width/6;
+    this.afbeelding = vijandAfbeeldingen['type3'];
+  }
+}
+  
+class VijandType4 extends Vijand {
+  constructor(l) {
+    super(l);
+    this.kleur = 'purple';
+
+  }
+}
+ 
+class VijandType5 extends Vijand {
+  constructor(l) {
+    super(l);
+    this.kleur = 'orange';
+    this.d = 30;
+    this.snelheid += 4
+  }
+}
+
+
+
+function randomVijand(l) {
+  let types = [VijandType1, VijandType2, VijandType3, VijandType4, VijandType5];
+  let gekozenType = random(types);
+  return new gekozenType(l);
 }
 
 /*  **********************************************************

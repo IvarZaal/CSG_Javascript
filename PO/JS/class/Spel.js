@@ -7,7 +7,8 @@ class Spel {
     this.beginscherm = true;
     this.afgelopen = false;
     this.speelveld = new Speelveld(); // Speelveld-object voor spelweergave
-    this.hero = new Hero()
+    this.hero = new Hero
+    this.vijand = new Vijand
   }
 
   nieuwSpel() {
