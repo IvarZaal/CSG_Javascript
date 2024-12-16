@@ -12,9 +12,15 @@ function setup() {
 }
 
 function preload() {
-  vijandAfbeeldingen['type1'] = loadImage('Docentenplaatjes/informaticakloosterman.png');
-  vijandAfbeeldingen['type2'] = loadImage('Docentenplaatjes/informaticaspeelman.png');
-  vijandAfbeeldingen['type3'] = loadImage('Docentenplaatjes/informaticavanderVeen.png');
+  vijandAfbeeldingen['Kloosterman'] = loadImage('Docentenplaatjes/informaticakloosterman.png');
+  vijandAfbeeldingen['Speelman'] = loadImage('Docentenplaatjes/informaticaspeelman.png');
+  vijandAfbeeldingen['Vanderveen'] = loadImage('Docentenplaatjes/informaticavanderVeen.png');
+  vijandAfbeeldingen['Gruber'] = loadImage('Docentenplaatjes/informaticamevrouwGruber.png');
+  vijandAfbeeldingen['Brugger'] = loadImage('Docentenplaatjes/informaticaBrugger.png');
+  vijandAfbeeldingen['Dries'] = loadImage('Docentenplaatjes/informaticamevrouwDries.png');
+  vijandAfbeeldingen['Rugzak'] = loadImage('Docentenplaatjes/informaticarugzak.png');
+  beginschermplaatjes['achtergrond'] = loadImage('Docentenplaatjes/augustinusgang.png');
+  beginschermplaatjes['Vanderveen'] = loadImage('Docentenplaatjes/vanderveennormaal.png');
   Heroafbeelding = loadImage('Docentenplaatjes/informaticahero.png');
 }
 

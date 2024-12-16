@@ -1,0 +1,12 @@
+
+zorg dat vijanden die buiten beeld zijn verwijderd worden
+chat GPT:
+ this.vijanden.forEach((vijand, index) => {
+      vijand.beweeg();
+
+      // Verwijder vijanden die buiten het scherm zijn
+      if (vijand.x < 0) {
+        this.vijanden.splice(index, 1);
+      }
+    });
+  }

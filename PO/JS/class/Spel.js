@@ -17,7 +17,7 @@ class Spel {
       this.afgelopen = false; // Reset eindscherm status
       this.spelActief = true; // Maak het spel actief
       this.punten = 0;        // Reset de punten
-      this.speelveld.nieuwSpel(); // Reset het speelveld
+      this.speelveld.tekenActiefSpel(); // Reset het speelveld
     }
   }
 

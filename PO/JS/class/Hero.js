@@ -4,7 +4,7 @@ class Hero {
   constructor() {
     this.y = height - width / 12; // Beginpositie van de held (onderaan het scherm)
     this.x = width / 2; // Horizontale positie (midden van het scherm)
-    this.grote = width / 12; // Grootte van de held
+    this.grote = width / 6; // Grootte van de held
     this.kleur = 'yellow'; // Kleur van de held
     this.snelheid = width / 6; // Stapgrootte voor beweging (1 stap)
     this.movingLeft = false; // Beweging naar links
@@ -12,20 +12,21 @@ class Hero {
     this.invincible = false; // Onschendbaarheid van de held
     this.invincibleTimer = 0; // Timer voor onschendbaarheid
     this.invincibilityCooldown = 0; // Cooldown voor onschendbaarheid
+    this.isVlakbij = false
   }
 
   teken() {
-    // Als de held onschendbaar is, teken een andere kleur (bijv. transparante geel)
     if (this.invincible) {
-      fill(255, 255, 0, 150); // Gele kleur met transparantie
+      // Pas transparantie toe met tint
+      tint(255, 255, 255, 150); // Witte kleur met 150 transparantie (0 = volledig transparant, 255 = volledig zichtbaar)
     } 
     else {
-      image(Heroafbeelding, this.x - this.grote / 2, this.y - this.grote / 2, this.grote, this.grote);
-      noFill();// geen kleur om de afbeelding niet te verstoren
+      noTint(); // Zorg dat er geen transparantie is als de held niet onschendbaar is
     }
-    
+    image(Heroafbeelding, this.x - this.grote / 2, this.y - this.grote / 2, this.grote, this.grote);
+    noTint();
     noStroke();
-    //ellipse(this.x, this.y, this.grote); // Teken de held als een cirkel
+    
     
     // Beweeg de held alleen als de toets wordt ingedrukt en niet voortdurend
     
@@ -33,11 +34,13 @@ class Hero {
       if (key === 'a' && !this.movingLeft) { // A-toets voor links
         this.x -= this.snelheid;
         this.movingLeft = true;
-      } else if (key === 'd' && !this.movingRight) { // D-toets voor rechts
+      } 
+      else if (key === 'd' && !this.movingRight) { // D-toets voor rechts
         this.x += this.snelheid;
         this.movingRight = true;
       }
-    } else {
+    } 
+    else {
       // Reset de beweging als de toets losgelaten wordt
       this.movingLeft = false;
       this.movingRight = false;
@@ -60,7 +63,6 @@ class Hero {
       this.invincibilityCooldown--;
     }
   }
-
   maakOnschendbaar() {
     // Alleen als de cooldown voorbij is
     if (this.invincibilityCooldown <= 0) {
