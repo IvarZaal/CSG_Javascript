@@ -10,3 +10,21 @@ chat GPT:
       }
     });
   }
+
+
+zorg dat de random functie sommige types vaker laat voorkomen
+  function randomVijand(l) {
+  let kans = random(100); // Genereer een willekeurig getal tussen 0 en 100
+
+  if (kans < 40) {
+    return new VijandType1(l); // 40% kans
+  } else if (kans < 70) {
+    return new VijandType2(l); // 30% kans
+  } else if (kans < 85) {
+    return new VijandType3(l); // 15% kans
+  } else if (kans < 95) {
+    return new VijandType4(l); // 10% kans
+  } else {
+    return new VijandType5(l); // 5% kans
+  }
+}

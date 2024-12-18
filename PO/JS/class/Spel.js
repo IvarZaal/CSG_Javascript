@@ -33,13 +33,41 @@ class Spel {
     this.punten = 0;
     this.speelveld.tekenActiefSpel(); // Start het actieve spel
     this.hero.teken()
+    this.punten = 0; // Houd bij hoeveel punten de speler heeft
+    this.highScore = this.laadHighScore(); // Laad de opgeslagen highscore
+  }
+  toonPunten() {
+    textAlign(LEFT, TOP);
+    textSize(20);
+    fill('white');
+    text(`Punten: ${this.punten}`, 20, 20); // Toon huidige score links boven
+    text(`Highscore: ${this.highScore}`, 20, 50); // Toon de highscore
+  }
+
+  verhoogPunten() {
+    this.punten += 10; // Verhoog punten met 10 bij elke vijand die je ontwijkt
+    if (this.punten > this.highScore) {
+      this.highScore = this.punten; // Update highscore als huidige punten hoger zijn
+      this.slaHighScoreOp();
+    }
+  }
+
+  resetPunten() {
+    this.punten = 0; // Reset punten bij een nieuw spel
+  }
+
+  slaHighScoreOp() {
+    localStorage.setItem('highScore', this.highScore); // Sla highscore op in de browser
+  }
+
+  laadHighScore() {
+    return parseInt(localStorage.getItem('highScore')) || 0; // Laad opgeslagen highscore, standaard 0
   }
 
 
   teken() {
     // Hoofdtekenfunctie voor het spel
-    background('navy');
-    
+        
     if (this.beginscherm) {
       // Als het spel nog niet is gestart, teken het beginscherm
       this.speelveld.tekenBeginscherm();
