@@ -116,8 +116,8 @@ function randomVijand(l) {
   } else if (kans < 90){
   return new VijandType3(l); 
   } else if (kans < 91){
-   return new VijandType7(l);
+   return new VijandType6(l);
   } else {
-   return new VijandType6(l)
+   return new VijandType7(l)
   }
 }

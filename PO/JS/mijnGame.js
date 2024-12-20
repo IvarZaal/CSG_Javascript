@@ -1,4 +1,7 @@
-
+var beginschermplaatjes = {};
+var spelachtergrond = {};
+var vijandAfbeeldingen = {};
+var Heroafbeelding
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -13,6 +16,8 @@ function setup() {
   speelveld = new Speelveld
 }
 
+
+// preload-functie
 function preload() {
   vijandAfbeeldingen['Kloosterman'] = loadImage('Docentenplaatjes/informaticakloosterman.png');
   vijandAfbeeldingen['Speelman'] = loadImage('Docentenplaatjes/informaticaspeelman.png');
@@ -26,7 +31,9 @@ function preload() {
   beginschermplaatjes['Vanderveen'] = loadImage('Docentenplaatjes/vanderveennormaal.png');
   beginschermplaatjes['Schadenberg'] = loadImage('Docentenplaatjes/informaticaSchadenberg.png');
   beginschermplaatjes['kloosterman'] = loadImage('Docentenplaatjes/kloostermanschuin.png');
-  spelachtergrond['level 1'] = loadImage('Docentenplaatjes/achtergrondlevel1.png')
+  spelachtergrond['level 1'] = loadImage('Docentenplaatjes/achtergrondlevel1.png');
+  spelachtergrond['level 2'] = loadImage('Docentenplaatjes/achtergrondlevel2.png');
+  spelachtergrond['level 3'] = loadImage('Docentenplaatjes/achtergrondlevel3.png');
   Heroafbeelding = loadImage('Docentenplaatjes/informaticahero.png');
 }
 

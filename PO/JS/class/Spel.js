@@ -25,7 +25,6 @@ class Spel {
     if (this.spelActief) {
       return; // Als het spel al actief is, doe dan niets
     }
-
     this.spelActief = true;
     this.beginscherm = false;
     this.verloren = false;
@@ -66,24 +65,21 @@ class Spel {
 
 
   teken() {
-    // Hoofdtekenfunctie voor het spel
-        
+    background('navy');
+
     if (this.beginscherm) {
-      // Als het spel nog niet is gestart, teken het beginscherm
       this.speelveld.tekenBeginscherm();
       if (keyIsDown(ENTER)) {
-        this.spelStarten(); // Start het spel bij drukken op Enter
+        this.spelStarten();
       }
-    } 
-    else if (this.spelActief) {
-      // Als het spel actief is, teken het actieve spel
-      this.speelveld.tekenActiefSpel(); // Teken het actieve spel
-    }
-     else if (this.afgelopen) {
-      // Als het spel is afgelopen, teken het eindscherm
+    } else if (this.spelActief) {
+      this.speelveld.tekenActiefSpel();
+      this.toonPunten(); // Toon de punten tijdens het spel
+    } else if (this.afgelopen) {
       this.speelveld.eindScherm();
-      if(keyIsDown(ENTER)){
-        this.nieuwSpel()
+      this.toonPunten(); // Toon punten op het eindscherm
+      if (keyIsDown(ENTER)) {
+        this.nieuwSpel();
       }
     }
   }

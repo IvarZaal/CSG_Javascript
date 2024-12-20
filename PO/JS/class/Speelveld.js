@@ -1,5 +1,6 @@
 var beginschermplaatjes = {};
-var spelachtergrond = {}
+var spelachtergrondY = 0; // Startpositie van de achtergrond
+var spelachtergrondGrote = 0; // Variabele voor de hoogte van de achtergrond
 var quotes = [
  "Dit gedrag kunnen wij op school niet meer tolereren! Je bent geschorst!",
  "Hebbes, jij gaat met ons mee! En je ouders krijgen ook een belletje!",
@@ -8,6 +9,8 @@ var quotes = [
  "Hier kommen jij! (Duits accent, oftwel je bent cooked R.I.P.)",
  "Zo jij bent snel, maar mij ga jij niet ontvluchten! (Ypie de Boer)",
 ];
+var achtergronden = ["level 1", "level 2", "level 3", ]; // Namen van de achtergrondafbeeldingen
+var huidigeAchtergrond = "level 1"; // Startachtergrond
 
 class Speelveld {
   constructor() {
@@ -16,7 +19,8 @@ class Speelveld {
     this.spawnInterval = 1500; // Tijd tussen vijand-spawns in ms
     this.level = 1; 
     this.levelTimer = millis();
-    this.snelheid = 5;
+    this.snelheid = 3+this.level*0.3;
+    this.vorigeLevel = 0;
   }
 
   // Methode om het speelveld te tekenen
@@ -32,73 +36,77 @@ class Speelveld {
     text('Druk op ENTER om te starten', width / 2, height / 2 - 125)
     image(beginschermplaatjes['Vanderveen'], width / 8, height -width/5  , width/3,width/5)
     image(beginschermplaatjes['Schadenberg'], width / 8*5, height -width/4  , width/5,width/4)
+    this.huidigeAchtergrond = "level 1"; // Startachtergrond
   }
   tekenActiefSpel() {
-    if (speelveld.level < 10 ){
-      image(spelachtergrond['level 1'], 0, 0, width, height)
+    if (spelachtergrondGrote === 0) {
+      spelachtergrondGrote = height; // Zet de hoogte van de achtergrond gelijk aan de canvas-hoogte
     }
-    /*
-    else if (speelveld.level < 20){
-      Image(spelachtergrond['level 2'])
-      }
-      */
-    // Controleer eerst of het spel niet voorbij is
+    
+    // Controleer of level een veelvoud van 5 is en of het level net is veranderd
+    if (this.level % 5 === 0 && this.level !== this.vorigeLevel) {
+      this.huidigeAchtergrond = random(achtergronden); // Kies een willekeurige achtergrond
+      console.log(`Achtergrond veranderd naar: ${this.huidigeAchtergrond} op level ${this.level}`);
+      this.vorigeLevel = this.level; // Update vorige level
+    }
+    
+    // Teken de huidige achtergrond
+    image(spelachtergrond[this.huidigeAchtergrond], 0, spelachtergrondY, width, spelachtergrondGrote);
+
+    // Teken een tweede achtergrond erboven om de overgang te maskeren
+    image(spelachtergrond[this.huidigeAchtergrond], 0, spelachtergrondY - spelachtergrondGrote, width, spelachtergrondGrote);
+    
+    // Scroll de achtergrond omlaag
+    spelachtergrondY += this.snelheid;
+
+    // Als de eerste achtergrond uit beeld is, reset de positie
+    if (spelachtergrondY >= spelachtergrondGrote) {
+      spelachtergrondY = 0;
+    }
+
     if (this.afgelopen) {
       this.eindScherm();
       return;
     }
-  
-    // Rest van de teken-logica
-    noStroke();
-    var kleuren = ['red', 'green', 'blue'];
-    var aantalRijen = 3;
-    var breedte = width / 6;
-    var afstand = 0;
-  
-    var startX = (width - (aantalRijen * breedte + (aantalRijen - 1) * afstand)) / 2;
-  
-    if (millis() - this.levelTimer >= 15000) { // Controleer of 15 seconden zijn verstreken
-      this.level++; // Verhoog het level
-      Spel.level++;
-      this.levelTimer = millis(); // Reset de timer naar de huidige tijd
-      this.spawnInterval = max(1000, this.spawnInterval - 100); // Verkort spawn-interval, minimaal 200ms
-      console.log("Level omhoog! Huidig level:", this.level);
-      //for (let v = 0; v < this.vijanden.length; v++) {
-      //  this.vijanden[v].snelheid += 1;
-      vijand.snelheid += 5;
-    }
-    
 
+    // Update vijanden en toon spelstatus
     this.updateVijanden();
     this.vijanden.forEach((vijand) => vijand.teken());
-  
+
     textAlign(RIGHT, TOP);
     textSize(20);
-    fill('white');
+    fill("white");
+    text(`Level: ${this.level}`, width - 20, 20);
     if (hero.invincibilityCooldown > 0) {
       let sec = Math.ceil(hero.invincibilityCooldown / 60);
       text('Cooldown: ' + sec + 's', width - 20, 20);
     } else {
       text('Klaar!', width - 20, 20);
+      if (millis() - this.levelTimer >= 1500) { // Controleer of 15 seconden zijn verstreken
+        this.level++; // Verhoog het level
+        this.levelTimer = millis(); // Reset de timer naar de huidige tijd
+        this.spawnInterval = max(700, this.spawnInterval - 100); // Verkort spawn-interval, minimaal 200ms
+        console.log("Level omhoog! Huidig level:", this.level);
+      }
     }
   }
   
-    updateVijanden() {
-      // Nieuwe vijanden genereren op basis van het spawn-interval
-      if (millis() - this.laatsteVijandTijd > this.spawnInterval) {
-        this.spawnVijand();
-        this.laatsteVijandTijd = millis();
-      }
-    
-      // Beweeg bestaande vijanden
-      this.vijanden.forEach((vijand, index) => {
-        vijand.beweeg();
-        // Verwijder vijanden die buiten het scherm zijn
-        if (vijand.y > height) {
-          this.vijanden.splice(index, 1);
-        }
-      });
+
+
+  updateVijanden() {
+    if (millis() - this.laatsteVijandTijd > this.spawnInterval) {
+      this.spawnVijand();
+      this.laatsteVijandTijd = millis();
     }
+  
+    this.vijanden.forEach((vijand, index) => {
+      vijand.beweeg();
+      if (vijand.y > height) {
+        this.vijanden.splice(index, 1); // Verwijder vijand die uit het scherm is
+        spel.verhoogPunten(); // Verhoog de punten als de vijand is ontwijkt
+      }
+    });
+  }
   spawnVijand() {
     this.vijanden.push(randomVijand(this.level));
   }

@@ -28,3 +28,32 @@ zorg dat de random functie sommige types vaker laat voorkomen
     return new VijandType5(l); // 5% kans
   }
 }
+
+maak een manier waarop de highschore blijft staan
+  teken() {
+    background('navy');
+
+    if (this.beginscherm) {
+      this.speelveld.tekenBeginscherm();
+      if (keyIsDown(ENTER)) {
+        this.spelStarten();
+      }
+    } else if (this.spelActief) {
+      this.speelveld.tekenActiefSpel();
+      this.toonPunten(); // Toon de punten tijdens het spel
+    } else if (this.afgelopen) {
+      this.speelveld.eindScherm();
+      this.toonPunten(); // Toon punten op het eindscherm
+      if (keyIsDown(ENTER)) {
+        this.nieuwSpel();
+      }
+    }
+  }
+
+  slaHighScoreOp() {
+    localStorage.setItem('highScore', this.highScore); // Sla highscore op in de browser
+  }
+
+  laadHighScore() {
+    return parseInt(localStorage.getItem('highScore')) || 0; // Laad opgeslagen highscore, standaard 0
+  }
