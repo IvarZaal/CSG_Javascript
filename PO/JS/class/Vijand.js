@@ -8,7 +8,7 @@ class Vijand {
     this.x = random(mogelijkePosities);
     this.y = 0;
     this.grote = width / 12;
-    this.snelheid = Vijand.basisSnelheid + l * 0.3;
+    this.snelheid = Vijand.basisSnelheid + l * 0.1;
     this.kleur = 'blue';
   }
 
@@ -109,9 +109,25 @@ class VijandType9 extends Vijand {
     this.afbeelding = vijandAfbeeldingen['Strikwerda'];
   }
 }
+class VijandBonus1 extends Vijand {
+  constructor(l) {
+    super(l);
+    this.kleur = 'gold';
+    this.grote = width / 8; // Maak hem groter om onderscheidend te zijn
+    this.afbeelding = vijandAfbeeldingen['telefoon']; // Voeg een afbeelding toe voor de bonusvijand
+  }
+}
+class VijandBonus2 extends Vijand {
+  constructor(l) {
+    super(l);
+    this.kleur = 'gold';
+    this.grote = width / 8; // Maak hem groter om onderscheidend te zijn
+    this.afbeelding = vijandAfbeeldingen['bier']; // Voeg een afbeelding toe voor de bonusvijand
+  }
+}
 
 function randomVijand(l) {
-  var kans = random(105);
+  var kans = random(123); // Vergroot de kansbereik om bonusvijand toe te voegen
   if (kans < 20) {
     return new VijandType4(l); 
   } else if (kans < 40) {
@@ -128,6 +144,10 @@ function randomVijand(l) {
     return new VijandType6(l);
   } else if (kans < 100) {
     return new VijandType7(l);
+  } else if (kans < 115) {
+    return new VijandBonus1(l); 
+  } else if (kans < 116.5) {
+    return new VijandBonus2(l); 
   } else { 
     return new VijandType9(l);
   }

@@ -73,3 +73,33 @@ maak een manier waarop de highschore blijft staan
       this.movingLeft = false;
       this.movingRight = false;
     }
+
+ zorg ervoor dat als je bonusVijand raakt de functie bonus aangeroepen wordt
+ function raakt(vijanden, hero) {
+  for (var i = 0; i < speelveld.vijanden.length; i++) {
+    var vijand = speelveld.vijanden[i];
+
+    // Als de held tijdelijk onkwetsbaar is, sla deze vijand over
+    if (hero.invincible) {
+      continue;
+    }
+
+    // Bereken de afstand tussen de held en de vijand
+    var afstand = dist(hero.x, hero.y, vijand.x, vijand.y);
+
+    // Controleer of de afstand kleiner is dan de grootte van de held en vijand
+    if (afstand < (hero.grote / 4 + vijand.grote / 4)) {
+      // Als het een bonusvijand is, verhoog de punten
+      if (vijand instanceof VijandBonus) {
+        vijand.raak(); // Roep de raak-functie van de bonusvijand aan
+        speelveld.vijanden.splice(i, 1); // Verwijder de bonusvijand uit de lijst
+        return false; // Blokkeer normale "game over" voor bonusvijanden
+      }
+
+      // Voor andere vijanden, retourneer true (voor game over)
+      return true;
+    }
+  }
+  return false; // Geen vijand geraakt
+}
+   

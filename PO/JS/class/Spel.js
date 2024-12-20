@@ -6,6 +6,8 @@ class Spel {
     this.verloren = false;
     this.beginscherm = true;
     this.afgelopen = false;
+    this.tijdVoorEenBiertje = false; // Om te controleren of de tekst getoond moet worden
+    this.tijdVoorEenBiertjeTimer = 0;    // Timer voor de tekst
   }
 
   nieuwSpel() {
@@ -37,10 +39,6 @@ class Spel {
     speelveld.tekenActiefSpel();
     hero.teken();
     this.highScore = this.laadHighScore();
-    if (speelveld.huidigeMuziek) {
-      speelveld.huidigeMuziek.loop();
-      console.log("Muziek opnieuw gestart");
-    }
   }
 
   toonPunten() {
@@ -70,7 +68,15 @@ class Spel {
   laadHighScore() {
     return parseInt(localStorage.getItem('highScore')) || 0; 
   }
-
+  bonusRaak(){
+    this.punten += 50
+  }
+  eersteDinsdagVanDeWeek() {
+    this.tijdVoorEenBiertje = true; // Start de weergave van de tekst
+    this.tijdVoorEenBiertjeTimer = millis(); // Stel de timer in op de huidige tijd
+    this.punten += 200
+    speelveld.vijanden = [];
+  }
   teken() {
     background('navy');
 
