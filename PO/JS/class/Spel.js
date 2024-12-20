@@ -6,61 +6,58 @@ class Spel {
     this.verloren = false;
     this.beginscherm = true;
     this.afgelopen = false;
-    this.speelveld = new Speelveld(); // Speelveld-object voor spelweergave
-    this.hero = new Hero
-    this.vijand = new Vijand
   }
 
   nieuwSpel() {
-    // Start een nieuw spel na het einde
     if (this.afgelopen) {
-      this.afgelopen = false; // Reset eindscherm status
-      this.spelActief = true; // Maak het spel actief
-      this.punten = 0;        // Reset de punten
-      this.speelveld.tekenActiefSpel(); // Reset het speelveld
+      this.afgelopen = false; 
+      this.spelActief = true; 
+      this.punten = 0;        
+      speelveld.tekenActiefSpel(); 
     }
   }
 
   spelStarten() {
     if (this.spelActief) {
-      return; // Als het spel al actief is, doe dan niets
+      return; 
     }
     this.spelActief = true;
     this.beginscherm = false;
     this.verloren = false;
     this.afgelopen = false;
     this.punten = 0;
-    this.speelveld.tekenActiefSpel(); // Start het actieve spel
-    this.hero.teken()
-    this.punten = 0; // Houd bij hoeveel punten de speler heeft
-    this.highScore = this.laadHighScore(); // Laad de opgeslagen highscore
+    speelveld.tekenActiefSpel(); 
+    hero.teken()
+    this.punten = 0; 
+    this.highScore = this.laadHighScore(); 
+    speelveld.controleerBotsing
   }
   toonPunten() {
     textAlign(LEFT, TOP);
     textSize(20);
     fill('white');
-    text(`Punten: ${this.punten}`, 20, 20); // Toon huidige score links boven
-    text(`Highscore: ${this.highScore}`, 20, 50); // Toon de highscore
+    text(`Punten: ${this.punten}`, 20, 20); 
+    text(`Highscore: ${this.highScore}`, 20, 50); // zie colofon
   }
 
   verhoogPunten() {
-    this.punten += 10; // Verhoog punten met 10 bij elke vijand die je ontwijkt
+    this.punten += 10; 
     if (this.punten > this.highScore) {
-      this.highScore = this.punten; // Update highscore als huidige punten hoger zijn
+      this.highScore = this.punten; 
       this.slaHighScoreOp();
     }
   }
 
   resetPunten() {
-    this.punten = 0; // Reset punten bij een nieuw spel
+    this.punten = 0; 
   }
 
   slaHighScoreOp() {
-    localStorage.setItem('highScore', this.highScore); // Sla highscore op in de browser
+    localStorage.setItem('highScore', this.highScore); // zie colofon
   }
 
   laadHighScore() {
-    return parseInt(localStorage.getItem('highScore')) || 0; // Laad opgeslagen highscore, standaard 0
+    return parseInt(localStorage.getItem('highScore')) || 0; // zie colofon
   }
 
 
@@ -68,16 +65,16 @@ class Spel {
     background('navy');
 
     if (this.beginscherm) {
-      this.speelveld.tekenBeginscherm();
+      speelveld.tekenBeginscherm();
       if (keyIsDown(ENTER)) {
         this.spelStarten();
       }
     } else if (this.spelActief) {
-      this.speelveld.tekenActiefSpel();
-      this.toonPunten(); // Toon de punten tijdens het spel
+      speelveld.tekenActiefSpel();
+      this.toonPunten(); 
     } else if (this.afgelopen) {
-      this.speelveld.eindScherm();
-      this.toonPunten(); // Toon punten op het eindscherm
+      speelveld.eindScherm();
+      this.toonPunten();
       if (keyIsDown(ENTER)) {
         this.nieuwSpel();
       }

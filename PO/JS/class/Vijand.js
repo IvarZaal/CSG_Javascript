@@ -4,14 +4,14 @@
  // hallo 
  var vijandAfbeeldingen = {};
  class Vijand {
-  static basisSnelheid = 3; // Basissnelheid
+  static basisSnelheid = 3;
 
   constructor(l) {
     let mogelijkePosities = [4 * width / 12, 6 * width / 12, 8 * width / 12];
     this.x = random(mogelijkePosities);
     this.y = 0;
     this.grote = width / 12;
-    this.snelheid = Vijand.basisSnelheid + l*0.3; // Snelheid verhoogd op basis van het level
+    this.snelheid = Vijand.basisSnelheid + l*0.3;
     this.kleur = 'blue';
   }
 
@@ -100,9 +100,8 @@ class VijandType8 extends Vijand {
     this.afbeelding = vijandAfbeeldingen['Gruber'];
   }
 }
-function randomVijand(l) {
-  let kans = random(100); // Genereer een willekeurig getal tussen 0 en 100
-
+function randomVijand(l) { //chat gpt zie Cholofon
+  let kans = random(100);
   if (kans < 20) {
     return new VijandType4(l); 
   } else if (kans < 40) {

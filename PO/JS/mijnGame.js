@@ -35,6 +35,10 @@ function preload() {
   spelachtergrond['level 2'] = loadImage('Docentenplaatjes/achtergrondlevel2.png');
   spelachtergrond['level 3'] = loadImage('Docentenplaatjes/achtergrondlevel3.png');
   Heroafbeelding = loadImage('Docentenplaatjes/informaticahero.png');
+  achtergrondmuziek['muziek2'] = loadSound("sounds/Muziek2.mp3");
+  achtergrondmuziek['muziek3'] = loadSound("sounds/Muziek3.mp3");
+  achtergrondmuziek['muziek1'] = loadSound("sounds/Muziek1.mp3");
+  eindschermplaatjes = loadImage('Docentenplaatjes/achtergrondeindscherm.png')
 }
 
 function draw() { 

@@ -57,3 +57,19 @@ maak een manier waarop de highschore blijft staan
   laadHighScore() {
     return parseInt(localStorage.getItem('highScore')) || 0; // Laad opgeslagen highscore, standaard 0
   }
+
+  zorg ervoor dat de hero maar 1x beweegt als je op een toets drukt
+    if (keyIsPressed) {
+      if (key === 'a' && !this.movingLeft) { 
+        this.x -= this.snelheid;
+        this.movingLeft = true;
+      } 
+      else if (key === 'd' && !this.movingRight) {
+        this.x += this.snelheid;
+        this.movingRight = true;
+      }
+    } 
+    else {
+      this.movingLeft = false;
+      this.movingRight = false;
+    }

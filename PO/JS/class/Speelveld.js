@@ -1,4 +1,5 @@
 var beginschermplaatjes = {};
+var achtergrondmuziek = {};
 var spelachtergrondY = 0; // Startpositie van de achtergrond
 var spelachtergrondGrote = 0; // Variabele voor de hoogte van de achtergrond
 var quotes = [
@@ -8,20 +9,32 @@ var quotes = [
  "Potverdikkie hé, doe jij dit thuis ook!? Ga maar heel rap naar mevrouw Speelman!",
  "Hier kommen jij! (Duits accent, oftwel je bent cooked R.I.P.)",
  "Zo jij bent snel, maar mij ga jij niet ontvluchten! (Ypie de Boer)",
+ "Als je gewoon je boerenverstand had gebruikt was er niks aan de hand",
+ "Heb je wel consent voor deze plaatjes?? Jan-Gerben Strikwerda",
 ];
 var achtergronden = ["level 1", "level 2", "level 3", ]; // Namen van de achtergrondafbeeldingen
 var huidigeAchtergrond = "level 1"; // Startachtergrond
+var huidigeMuziek;
+var vorigeLevel = -1;
+
 
 class Speelveld {
+  static basisSnelheid = 3; // Basissnelheid
   constructor() {
     this.vijanden = [];
     this.laatsteVijandTijd = 0;
     this.spawnInterval = 1500; // Tijd tussen vijand-spawns in ms
     this.level = 1; 
     this.levelTimer = millis();
-    this.snelheid = 3+this.level*0.3;
+    this.snelheid = Speelveld.basisSnelheid + this.level*0.3;
     this.vorigeLevel = 0;
+    huidigeMuziek = achtergrondmuziek["muziek1"];
+    if (huidigeMuziek) {
+      huidigeMuziek.loop();
+      console.log("Start muziek: muziek1");
+    }
   }
+  
 
   // Methode om het speelveld te tekenen
   tekenBeginscherm() {
@@ -39,31 +52,39 @@ class Speelveld {
     this.huidigeAchtergrond = "level 1"; // Startachtergrond
   }
   tekenActiefSpel() {
+    if (millis() - this.levelTimer >= 1500) { // Controleer of 15 seconden zijn verstreken
+      this.level++; // Verhoog het level
+      this.levelTimer = millis(); // Reset de timer naar de huidige tijd
+      this.spawnInterval = max(700, this.spawnInterval - 100); // Verkort spawn-interval, minimaal 200ms
+      console.log("Level omhoog! Huidig level:", this.level);
+    	}
     if (spelachtergrondGrote === 0) {
       spelachtergrondGrote = height; // Zet de hoogte van de achtergrond gelijk aan de canvas-hoogte
     }
-    
     // Controleer of level een veelvoud van 5 is en of het level net is veranderd
     if (this.level % 5 === 0 && this.level !== this.vorigeLevel) {
       this.huidigeAchtergrond = random(achtergronden); // Kies een willekeurige achtergrond
       console.log(`Achtergrond veranderd naar: ${this.huidigeAchtergrond} op level ${this.level}`);
       this.vorigeLevel = this.level; // Update vorige level
+    
+      if (huidigeMuziek && huidigeMuziek.isPlaying()) {
+        huidigeMuziek.stop();
+      }
+
+      // Kies nieuwe muziek op basis van de nieuwe achtergrond
+      var nieuweMuziek = "muziek" + (achtergronden.indexOf(this.huidigeAchtergrond) + 1); // Genereer de naam van de nieuwe muziek
+      huidigeMuziek = achtergrondmuziek[nieuweMuziek]; // Kies de bijbehorende muziek
+      if (huidigeMuziek) {
+        huidigeMuziek.loop(); // Start de nieuwe muziek
+      }
     }
-    
-    // Teken de huidige achtergrond
+
     image(spelachtergrond[this.huidigeAchtergrond], 0, spelachtergrondY, width, spelachtergrondGrote);
-
-    // Teken een tweede achtergrond erboven om de overgang te maskeren
     image(spelachtergrond[this.huidigeAchtergrond], 0, spelachtergrondY - spelachtergrondGrote, width, spelachtergrondGrote);
-    
-    // Scroll de achtergrond omlaag
-    spelachtergrondY += this.snelheid;
-
-    // Als de eerste achtergrond uit beeld is, reset de positie
+    spelachtergrondY += 3 + this.level*0.3;
     if (spelachtergrondY >= spelachtergrondGrote) {
       spelachtergrondY = 0;
     }
-
     if (this.afgelopen) {
       this.eindScherm();
       return;
@@ -81,14 +102,8 @@ class Speelveld {
       let sec = Math.ceil(hero.invincibilityCooldown / 60);
       text('Cooldown: ' + sec + 's', width - 20, 20);
     } else {
-      text('Klaar!', width - 20, 20);
-      if (millis() - this.levelTimer >= 1500) { // Controleer of 15 seconden zijn verstreken
-        this.level++; // Verhoog het level
-        this.levelTimer = millis(); // Reset de timer naar de huidige tijd
-        this.spawnInterval = max(700, this.spawnInterval - 100); // Verkort spawn-interval, minimaal 200ms
-        console.log("Level omhoog! Huidig level:", this.level);
-      }
-    }
+      text('Klaar!', width - 20, 20);}
+
   }
   
 
@@ -98,15 +113,17 @@ class Speelveld {
       this.spawnVijand();
       this.laatsteVijandTijd = millis();
     }
-  
-    this.vijanden.forEach((vijand, index) => {
-      vijand.beweeg();
-      if (vijand.y > height) {
-        this.vijanden.splice(index, 1); // Verwijder vijand die uit het scherm is
-        spel.verhoogPunten(); // Verhoog de punten als de vijand is ontwijkt
+      // Beweeg alle vijanden
+      for (let i = 0; i < this.vijanden.length; i++) {
+        spel.vijanden[i].beweeg();
       }
-    });
-  }
+    
+      // Controleer of de held geraakt wordt door een vijand
+      if (raakt(spel.vijanden, hero)) {
+        // Voer actie uit bij botsing (bijv. spel stoppen of levens verminderen)
+        spel.spelStoppen();
+      }
+    }
   spawnVijand() {
     this.vijanden.push(randomVijand(this.level));
   }
@@ -126,10 +143,24 @@ class Speelveld {
     textAlign(CENTER, CENTER);
     textSize(32);
     fill('white');
-    text('Game Over!', width / 2, height / 2);
     var randomquotes = random(quotes)
     text(randomquotes, width / 2, height / 2 + 50)
     textSize(20);
-    text('Druk op Enter om opnieuw te beginnen', width / 2, height / 2 + 100);
+  }
+
+raakt(vijanden, hero) {
+    for (let i = 0; i < this.vijanden.length; i++) {
+      let vijand = this.vijanden[i];
+  
+      // Bereken de afstand tussen de held en de vijand
+      let afstand = dist(hero.x, hero.y, vijand.x, vijand.y);
+  
+      // Controleer botsing op basis van de grootte (radius van cirkelvormige vijanden en hero)
+      if (afstand < (hero.grote / 2 + vijand.grote / 2)) {
+        console.log("Hero is geraakt door een vijand!");
+        return true; // Hero is geraakt
+      }
+    }
+    return false; // Geen botsing
   }
 }
