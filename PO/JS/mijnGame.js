@@ -1,7 +1,7 @@
 var beginschermplaatjes = {};
 var spelachtergrond = {};
 var vijandAfbeeldingen = {};
-var Heroafbeelding
+var Heroafbeelding;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -10,14 +10,12 @@ function setup() {
   textSize(40);
   textAlign(CENTER, CENTER);
   frameRate(60);
-  spel = new Spel()
-  hero = new Hero()
-  vijand = new Vijand()
-  speelveld = new Speelveld
+  spel = new Spel();
+  hero = new Hero();
+  vijand = new Vijand();
+  speelveld = new Speelveld();
 }
 
-
-// preload-functie
 function preload() {
   vijandAfbeeldingen['Kloosterman'] = loadImage('Docentenplaatjes/informaticakloosterman.png');
   vijandAfbeeldingen['Speelman'] = loadImage('Docentenplaatjes/informaticaspeelman.png');
@@ -27,6 +25,7 @@ function preload() {
   vijandAfbeeldingen['Dries'] = loadImage('Docentenplaatjes/informaticamevrouwDries.png');
   vijandAfbeeldingen['Rugzak'] = loadImage('Docentenplaatjes/informaticabruggerrugzak.png');
   vijandAfbeeldingen['Stoel'] = loadImage('Docentenplaatjes/informaticastoel.png');
+  vijandAfbeeldingen['Strikwerda'] = loadImage('Docentenplaatjes/strikwerda.png');
   beginschermplaatjes['achtergrond'] = loadImage('Docentenplaatjes/augustinusgang.png');
   beginschermplaatjes['Vanderveen'] = loadImage('Docentenplaatjes/vanderveennormaal.png');
   beginschermplaatjes['Schadenberg'] = loadImage('Docentenplaatjes/informaticaSchadenberg.png');
@@ -38,7 +37,7 @@ function preload() {
   achtergrondmuziek['muziek2'] = loadSound("sounds/Muziek2.mp3");
   achtergrondmuziek['muziek3'] = loadSound("sounds/Muziek3.mp3");
   achtergrondmuziek['muziek1'] = loadSound("sounds/Muziek1.mp3");
-  eindschermplaatjes = loadImage('Docentenplaatjes/achtergrondeindscherm.png')
+  eindschermplaatjes = loadImage('Docentenplaatjes/achtergrondeindscherm.png');
 }
 
 function draw() { 
@@ -46,10 +45,27 @@ function draw() {
   if(spel.spelActief) {
     hero.teken();
   }
+  if(raakt(speelveld.vijanden, hero)) {
+    speelveld.spelStoppen(); 
+  }
+}
+
+function raakt(vijanden, hero) {
+  for (var i = 0; i < speelveld.vijanden.length; i++) {
+    var vijand = speelveld.vijanden[i];
+    if (hero.invincible) {
+      continue;
+    }
+    var afstand = dist(hero.x, hero.y, vijand.x, vijand.y);
+    if (afstand < (hero.grote / 4 + vijand.grote / 4)) {
+      return true; 
+    }
+  }
+  return false; 
 }
 
 function keyPressed() {
   if (key === 'k' || key === 'K') {
-    hero.maakOnschendbaar(); // Correcte manier om Hero aan te roepen
+    hero.maakOnschendbaar(); 
   }
 }

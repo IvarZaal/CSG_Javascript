@@ -11,30 +11,27 @@ class Hero {
     this.invincible = false; 
     this.invincibleTimer = 0; 
     this.invincibilityCooldown = 0; 
-    this.isVlakbij = false
+    this.isVlakbij = false;
   }
 
   teken() {
     if (this.invincible) {
       tint(255, 255, 255, 150); 
-    } 
-    else {
+    } else {
       noTint();
     }
     image(Heroafbeelding, this.x - this.grote / 2, this.y - this.grote / 2, this.grote, this.grote);
     noTint();
     noStroke();
-    if (keyIsPressed) { // zie colofon
+    if (keyIsPressed) {
       if (key === 'a' && !this.movingLeft) { 
         this.x -= this.snelheid;
         this.movingLeft = true;
-      } 
-      else if (key === 'd' && !this.movingRight) {
+      } else if (key === 'd' && !this.movingRight) {
         this.x += this.snelheid;
         this.movingRight = true;
       }
-    } 
-    else {
+    } else {
       this.movingLeft = false;
       this.movingRight = false;
     }
@@ -50,12 +47,12 @@ class Hero {
       this.invincibilityCooldown--;
     }
   }
-  
+
   maakOnschendbaar() {
     if (this.invincibilityCooldown <= 0) {
       this.invincible = true;
-      this.invincibleTimer = 0; // Reset de timer
-      this.invincibilityCooldown = 600; // Zet de cooldown op 10 seconden (600 frames)
+      this.invincibleTimer = 0;
+      this.invincibilityCooldown = 600;
     }
   }
 }
